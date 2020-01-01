@@ -1,0 +1,33 @@
+// given a string find all the permutations such that there is no 'AB' substring in that permutation
+#include<bits/stdc++.h>
+using namespace std;
+bool isSafe(string s,int l,int i,int r)
+{
+    if(l!=0 && s[l-1] == 'A'&&s[i] == 'B')
+        return false;
+    if(r == l+1 && s[l] == 'B' &&s[i] == 'A')
+        return false;
+    return true;
+}
+void permute(string s,int l,int r)
+{
+    if(l==r)
+    {
+        cout<<s<<" ";
+        return;
+    }
+    for(int i=l;i<=r;i++)
+    {
+        if(isSafe(s,l,i,r))
+        {
+            swap(s[i],s[l]);
+            permute(s,l+1,r);
+            swap(s[i],s[l]);
+        }
+    }
+}
+int main()
+{
+    string s="ABC";
+    permute(s,0,2);
+}

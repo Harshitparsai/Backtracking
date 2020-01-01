@@ -1,0 +1,70 @@
+//given a N*N chess board determine if it possible to arrange N queen in that if yes then print the 
+// actual arrangement
+
+#include<bits/stdc++.h>
+using namespace std;
+//declaring the board
+int board[4][4];
+//isSafe function if checking if it is possible to keep the queen at the current possition
+bool isSafe(int c,int r)
+{   int i,j;
+    for(i=0;i<c;i++)
+    {
+        if(board[r][i])
+            return false;
+    }
+    for(i = c-1,j=r-1;i>=0&&j>=0;j--,i--)
+    {
+        if(board[j][i])
+            return false;
+    }
+    for(i=c-1,j = r+1;i>=0&&j<=3;j++,i--)
+    {
+        if(board[j][i])
+            return false;
+    }
+    return true;
+}
+// this is the main solution of N-queen
+bool solveQPRec(int c)
+{   //if we reached the last position then all the queen are placed we are placing the queen in diff c
+    if(c==4) return true;
+    for(int i=0;i<4;i++)
+    {   // if it is safe to place the queen at the current position
+         if(isSafe(c,i))
+        {   //place the queen at this position
+            board[i][c] = 1;
+            //check the same in the next column
+	    if(solveQPRec(c+1)) return true;
+	//if it is not possible to place the queen at the current position then mark put off the queen
+            board[i][c] = 0;
+        }
+    }
+    return false;
+}
+bool solveQP()
+{
+    if(solveQPRec(0))
+    {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+int main()
+{   if(solveQP())
+    {    cout<<"there exist a solution and the solution is\n";
+        for(int i=0;i<4;i++)
+        {
+            for(int j=0;j<4;j++)
+            {
+                cout<<board[i][j];
+            }
+            cout<<"\n";
+        }
+    }
+    else{
+        cout<<"there does not exist a solution for the given number of the cells in the board";
+    }
+}
